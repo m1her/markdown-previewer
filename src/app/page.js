@@ -1,113 +1,146 @@
-import Image from 'next/image'
+"use client";
+import { marked } from "marked";
+//import 'marked/lib/marked.css';
+import { Fragment, useEffect, useState } from "react";
 
 export default function Home() {
+  const [html, setHtml] = useState();
+  const [textareaInput, setTextareaInput] = useState();
+  const [editorFullScreen, setEditorFullScreen] = useState(false);
+  const [previewerFullScreen, setPreviewFullScreen] = useState(false);
+
+  const handleTextareaInput = (event) => {
+    setTextareaInput(event.target.value);
+    let inputToHtml = marked(event.target.value);
+    setHtml(inputToHtml);
+  };
+
+  const editorFullScreenHandler = () => {
+    setEditorFullScreen(!editorFullScreen);
+  };
+  const previewerFullScreenHandler = () => {
+    setPreviewFullScreen(!previewerFullScreen);
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <main className="flex min-h-screen flex-col overflow-auto items-center py-4 bg-[#88b5b3]">
+      {/* editooorrrrrrrr */}
+      {!previewerFullScreen && (
+        <div
+          id="editorwrap"
+          className="w-[600px] shadow-custom max-w-[80%] mb-6"
+        >
+          {/* tooolbaarrrrrrrr */}
+          <div
+            id="editorToolbar"
+            className=" bg-[#45a6a1] h-10 border border-black flex justify-between items-center p-2 w-full "
           >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="10"
+              height="10"
+              viewBox="0 0 20 20"
+              className="w-5 h-5 ml-0 mr-2"
+            >
+              <path fill="none" d="M0 0h20v20H0z" />
+              <path d="M2 3h16v2H2V3zm0 4h16v2H2V7zm0 4h16v2H2v-2zm0 4h16v2H2v-2z" />
+            </svg>
+            <spam className="text-black font-extrabold text-lg mr-auto">
+              Editor
+            </spam>
+
+            {editorFullScreen ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="10"
+                height="10"
+                viewBox="0 0 32 32"
+                className="w-5 h-5 hover:fill-blue-700 hover:cursor-pointer"
+                onClick={editorFullScreenHandler}
+              >
+                <path d="m11.975 10.838-.021-7.219c-.009-.404-.344-.644-.748-.654l-.513-.001c-.405-.009-.725.343-.716.747l.028 4.851L1.684.32A.999.999 0 1 0 .27 1.734l8.285 8.207-4.721.012a.822.822 0 0 0-.84.746l.001.513c.01.405.344.739.748.748l7.172-.031c.008.001.013.003.02.003l.366.008a.691.691 0 0 0 .512-.205c.132-.13.178-.311.175-.514l-.04-.366c.001-.007.027-.012.027-.019zm8.212.898c.129.13.311.21.512.205l.366-.008c.007 0 .012-.002.02-.004l7.172.031a.772.772 0 0 0 .747-.748l.001-.513a.822.822 0 0 0-.84-.746l-4.721-.012 8.285-8.207A.999.999 0 1 0 30.315.32l-8.32 8.241.027-4.851c.009-.404-.311-.756-.715-.747l-.513.001c-.405.01-.739.25-.748.654l-.021 7.219c0 .007.027.012.027.02l-.04.366c-.005.203.043.384.174.514zm-8.374 8.496a.693.693 0 0 0-.512-.205l-.366.009c-.007 0-.012.003-.02.003l-7.173-.032a.772.772 0 0 0-.748.747l-.001.514c.062.476.436.755.84.745l4.727.012-8.29 8.238a.999.999 0 1 0 1.414 1.414l8.321-8.268-.028 4.878c-.009.404.312.756.716.747l.513-.001c.405-.01.739-.25.748-.654l.021-7.219c0-.007-.027-.011-.027-.019l.04-.397c.005-.203-.043-.384-.174-.514zm11.626 1.796 4.727-.012a.822.822 0 0 0 .84-.745l-.001-.514a.773.773 0 0 0-.748-.748h-7.172c-.008 0-.013-.003-.02-.003l-.428-.009c-.201-.006-.384.136-.512.267-.131.13-.178.311-.174.514l.04.366c0 .008-.027.012-.027.019l.021 7.219c.009.404.343.644.748.654l.544.001c.404.009.725-.343.715-.747l-.027-4.829 8.352 8.22a.999.999 0 1 0 1.414-1.414z" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="10"
+                height="10"
+                viewBox="0 0 32 32"
+                className="w-5 h-5 hover:fill-blue-700 hover:cursor-pointer"
+                onClick={editorFullScreenHandler}
+              >
+                <path d="m21.434 11.975 8.602-8.549-.028 4.846c-.009.404.311.755.716.746l.513-.001c.404-.009.739-.25.748-.654l.021-7.219c0-.007-.027-.012-.027-.019l.04-.366c.004-.203-.044-.384-.174-.513a.688.688 0 0 0-.512-.204l-.366.009c-.007 0-.012.003-.02.004L23.775.023a.77.77 0 0 0-.747.748l-.001.513a.822.822 0 0 0 .84.746l4.726.013-8.572 8.52a1 1 0 1 0 1.414 1.415zm-10.837 8.05-8.602 8.523.027-4.82c.01-.404-.312-.756-.716-.747l-.544.001c-.405.01-.739.25-.748.654l-.021 7.219c0 .007.028.011.028.019l-.04.365c-.005.203.043.385.174.514.129.131.311.21.512.205l.366-.009c.007 0 .012-.003.02-.003l7.203.032a.774.774 0 0 0 .748-.748l.001-.514c-.062-.476-.436-.755-.84-.746l-4.726-.012 8.571-8.518a1 1 0 0 0-1.413-1.414zm21.41 10.83-.021-7.219c-.009-.404-.343-.645-.747-.654l-.513-.001c-.404-.009-.725.343-.716.747l.028 4.846-8.602-8.549a1 1 0 0 0-1.414 1.414l8.571 8.518-4.726.012a.822.822 0 0 0-.84.746l.001.514a.772.772 0 0 0 .747.748l7.172-.032c.008 0 .013.003.02.003l.366.009a.69.69 0 0 0 .512-.205c.131-.129.178-.311.174-.514l-.04-.365c0-.008.027-.012.027-.019zM3.439 2.041l4.727-.012c.404.009.778-.27.84-.746L9.005.77a.772.772 0 0 0-.748-.748L1.053.053C1.045.052 1.04.049 1.033.049L.667.04a.694.694 0 0 0-.512.204c-.132.13-.179.31-.174.514l.04.366c0 .007-.028.012-.028.02l.021 7.219c.009.404.343.645.748.654l.545.001c.404.009.724-.342.715-.746l-.028-4.819 8.602 8.523a1 1 0 0 0 1.414-1.415z" />
+              </svg>
+            )}
+          </div>
+          {/* texttareaaaaaaaaaaaaa */}
+          <textarea
+            id="editor"
+            className={`bg-[#c9e0df] w-full border border-black -mb-2 min-h-[200px] p-2 text-sm font-mono focus:outline-none
+            ${editorFullScreen ? "h-screen" : "h-52"}
+            `}
+            value={textareaInput}
+            onChange={handleTextareaInput}
+          ></textarea>
         </div>
-      </div>
+      )}
+      {/* prevvviewwwwwwww */}
+      {!editorFullScreen && (
+        <div id="preview" className="w-[900px] shadow-custom max-w-[80%]">
+          {/* tooolbaarrrrrrrr */}
+          <div
+            id="editorToolbar"
+            className=" bg-[#45a6a1] h-10 border border-black flex justify-between items-center p-2 w-full "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="10"
+              height="10"
+              viewBox="0 0 20 20"
+              className="w-5 h-5 ml-0 mr-2"
+            >
+              <path fill="none" d="M0 0h20v20H0z" />
+              <path d="M2 3h16v2H2V3zm0 4h16v2H2V7zm0 4h16v2H2v-2zm0 4h16v2H2v-2z" />
+            </svg>
+            <spam className="text-black font-extrabold text-lg mr-auto">
+              Previewer
+            </spam>
+            
+            {previewerFullScreen ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="10"
+                height="10"
+                viewBox="0 0 32 32"
+                className="w-5 h-5 hover:fill-blue-700 hover:cursor-pointer"
+                onClick={previewerFullScreenHandler}
+              >
+                <path d="m11.975 10.838-.021-7.219c-.009-.404-.344-.644-.748-.654l-.513-.001c-.405-.009-.725.343-.716.747l.028 4.851L1.684.32A.999.999 0 1 0 .27 1.734l8.285 8.207-4.721.012a.822.822 0 0 0-.84.746l.001.513c.01.405.344.739.748.748l7.172-.031c.008.001.013.003.02.003l.366.008a.691.691 0 0 0 .512-.205c.132-.13.178-.311.175-.514l-.04-.366c.001-.007.027-.012.027-.019zm8.212.898c.129.13.311.21.512.205l.366-.008c.007 0 .012-.002.02-.004l7.172.031a.772.772 0 0 0 .747-.748l.001-.513a.822.822 0 0 0-.84-.746l-4.721-.012 8.285-8.207A.999.999 0 1 0 30.315.32l-8.32 8.241.027-4.851c.009-.404-.311-.756-.715-.747l-.513.001c-.405.01-.739.25-.748.654l-.021 7.219c0 .007.027.012.027.02l-.04.366c-.005.203.043.384.174.514zm-8.374 8.496a.693.693 0 0 0-.512-.205l-.366.009c-.007 0-.012.003-.02.003l-7.173-.032a.772.772 0 0 0-.748.747l-.001.514c.062.476.436.755.84.745l4.727.012-8.29 8.238a.999.999 0 1 0 1.414 1.414l8.321-8.268-.028 4.878c-.009.404.312.756.716.747l.513-.001c.405-.01.739-.25.748-.654l.021-7.219c0-.007-.027-.011-.027-.019l.04-.397c.005-.203-.043-.384-.174-.514zm11.626 1.796 4.727-.012a.822.822 0 0 0 .84-.745l-.001-.514a.773.773 0 0 0-.748-.748h-7.172c-.008 0-.013-.003-.02-.003l-.428-.009c-.201-.006-.384.136-.512.267-.131.13-.178.311-.174.514l.04.366c0 .008-.027.012-.027.019l.021 7.219c.009.404.343.644.748.654l.544.001c.404.009.725-.343.715-.747l-.027-4.829 8.352 8.22a.999.999 0 1 0 1.414-1.414z" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="10"
+                height="10"
+                viewBox="0 0 32 32"
+                className="w-5 h-5 hover:fill-blue-700 hover:cursor-pointer"
+                onClick={previewerFullScreenHandler}
+              >
+                <path d="m21.434 11.975 8.602-8.549-.028 4.846c-.009.404.311.755.716.746l.513-.001c.404-.009.739-.25.748-.654l.021-7.219c0-.007-.027-.012-.027-.019l.04-.366c.004-.203-.044-.384-.174-.513a.688.688 0 0 0-.512-.204l-.366.009c-.007 0-.012.003-.02.004L23.775.023a.77.77 0 0 0-.747.748l-.001.513a.822.822 0 0 0 .84.746l4.726.013-8.572 8.52a1 1 0 1 0 1.414 1.415zm-10.837 8.05-8.602 8.523.027-4.82c.01-.404-.312-.756-.716-.747l-.544.001c-.405.01-.739.25-.748.654l-.021 7.219c0 .007.028.011.028.019l-.04.365c-.005.203.043.385.174.514.129.131.311.21.512.205l.366-.009c.007 0 .012-.003.02-.003l7.203.032a.774.774 0 0 0 .748-.748l.001-.514c-.062-.476-.436-.755-.84-.746l-4.726-.012 8.571-8.518a1 1 0 0 0-1.413-1.414zm21.41 10.83-.021-7.219c-.009-.404-.343-.645-.747-.654l-.513-.001c-.404-.009-.725.343-.716.747l.028 4.846-8.602-8.549a1 1 0 0 0-1.414 1.414l8.571 8.518-4.726.012a.822.822 0 0 0-.84.746l.001.514a.772.772 0 0 0 .747.748l7.172-.032c.008 0 .013.003.02.003l.366.009a.69.69 0 0 0 .512-.205c.131-.129.178-.311.174-.514l-.04-.365c0-.008.027-.012.027-.019zM3.439 2.041l4.727-.012c.404.009.778-.27.84-.746L9.005.77a.772.772 0 0 0-.748-.748L1.053.053C1.045.052 1.04.049 1.033.049L.667.04a.694.694 0 0 0-.512.204c-.132.13-.179.31-.174.514l.04.366c0 .007-.028.012-.028.02l.021 7.219c.009.404.343.645.748.654l.545.001c.404.009.724-.342.715-.746l-.028-4.819 8.602 8.523a1 1 0 0 0 1.414-1.415z" />
+              </svg>
+            )}
+          </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+          {/* texttareaaaaaaaaaaaaa */}
+          <div
+            id="content"
+            className={`bg-[#c9e0df] w-full  border border-black -mb-2 min-h-[150px] p-4
+            ${previewerFullScreen ? "h-full" : ""}
+            `}
+            dangerouslySetInnerHTML={{ __html: html }}
+          ></div>
+        </div>
+      )}
     </main>
-  )
+  );
 }

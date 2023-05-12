@@ -1,27 +1,81 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+  /* Marked Library Styles using Tailwind CSS */
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+  h1 {
+    @apply text-4xl font-bold mb-4 mt-4 border-black border-b-2 pb-2;
   }
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  h2 {
+    @apply text-3xl font-bold mb-4 mt-8 border-black border-b pb-1;
+  }
+
+  h3 {
+    @apply text-2xl font-bold mb-4 mt-10;
+  }
+
+  h4 {
+    @apply text-xl font-bold mb-4 mt-12;
+  }
+
+  h5 {
+    @apply text-lg font-bold mb-4 mt-16;
+  }
+
+  h6 {
+    @apply text-base font-bold mb-4 mt-20;
+  }
+
+  hr {
+    @apply border-t border-gray-200 my-8;
+  }
+
+  blockquote {
+    @apply border-l-4 border-black italic py-2 px-2 ml-2 my-4;
+  }
+
+  blockquote > * {
+    @apply mt-0 mb-0;
+  }
+
+  code {
+    @apply font-mono text-sm bg-white py-1 px-2 rounded-sm;
+  }
+
+  pre {
+    @apply font-mono text-sm bg-white p-4 my-4;
+  }
+
+  pre code {
+    @apply text-sm p-0 bg-transparent rounded-none;
+  }
+
+  ul,
+  ol {
+    @apply list-disc pl-8 my-4;
+  }
+
+  ul > li,
+  ol > li {
+    @apply my-2;
+  }
+
+  li > *:last-child {
+    @apply mb-0;
+  }
+
+  table {
+    @apply table-auto w-fit my-4;
+  }
+
+  table th,
+  table td {
+    @apply border-2 border-black p-2;
+  }
+  
+  a {
+    @apply text-blue-700 underline;
+  }
 }
